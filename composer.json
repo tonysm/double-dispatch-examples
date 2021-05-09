@@ -16,5 +16,7 @@
     "autoload-dev": {
         "Test\\": "tests/"
     },
-    "require": {}
+    "require-dev": {
+        "pestphp/pest": "^1.1"
+    }
 }
