@@ -1,0 +1,20 @@
+{
+    "name": "tonysm/double-dispatch",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tony Messias",
+            "email": "tonysm@hey.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "Test\\": "tests/"
+    },
+    "require": {}
+}
