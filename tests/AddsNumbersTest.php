@@ -1,61 +1,56 @@
 <?php
 
-interface Number
-{
-    public function add(Number $number): Number;
-    public function addInteger(Integer $number): Number;
-    public function addFloat(FloatNumber $number): Number;
-}
+declare(strict_types = 1);
 
-class Integer implements Number
+class Integer
 {
     public function __construct(public int $value)
     {
     }
 
-    public function add(Number $number): Number
+    public function add($number)
     {
         return $number->addInteger($this);
     }
 
-    public function addInteger(Integer $integer): Number
+    public function addInteger(Integer $number)
     {
-        return new Integer($this->value + $integer->value);
+        return new Integer($this->value + $number->value);
     }
 
-    public function addFloat(FloatNumber $number): Number
+    public function addFloat(FloatNumber $number)
     {
-        return $this->asFloat()->add($number);
+        return $number->addFloat($this->asFloat());
     }
 
-    private function asFloat()
+    public function asFloat()
     {
         return new FloatNumber(floatval($this->value));
     }
 }
 
-class FloatNumber implements Number
+class FloatNumber
 {
     public function __construct(public float $value)
     {
     }
 
-    public function add(Number $number): Number
+    public function add($number)
     {
         return $number->addFloat($this);
     }
 
-    public function addFloat(FloatNumber $number): Number
+    public function addFloat(FloatNumber $number)
     {
         return new FloatNumber($this->value + $number->value);
     }
 
-    public function addInteger(Integer $number): Number
+    public function addInteger(Integer $number)
     {
-        return $this->asInteger()->addInteger($number);
+        return $number->addInteger($this->asInteger());
     }
 
-    private function asInteger()
+    public function asInteger()
     {
         return new Integer(intval($this->value));
     }
@@ -75,16 +70,10 @@ test('Floats can add other Floats', function () {
     $this->assertSame(15.0, $first->add($second)->value);
 });
 
-test('Integers can add Floats', function () {
+test('Can add Integers and Floats', function () {
     $first = new Integer(10);
     $second = new FloatNumber(5.0);
 
     $this->assertSame(15, $first->add($second)->value);
-});
-
-test('Floats can add Integers', function () {
-    $first = new Integer(10);
-    $second = new FloatNumber(5.0);
-
     $this->assertSame(15.0, $second->add($first)->value);
 });
